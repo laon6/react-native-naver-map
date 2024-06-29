@@ -4,6 +4,11 @@ import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.fabricEnabled
 import com.facebook.react.defaults.DefaultReactActivityDelegate
+import android.os.Bundle;
+import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView
+import com.facebook.react.ReactRootView
+
+
 
 class MainActivity : ReactActivity() {
 
@@ -18,5 +23,14 @@ class MainActivity : ReactActivity() {
    * which allows you to enable New Architecture with a single boolean flags [fabricEnabled]
    */
   override fun createReactActivityDelegate(): ReactActivityDelegate =
-      DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled)
+      object : DefaultReactActivityDelegate(this, mainComponentName, fabricEnabled) {
+        override fun createRootView(): ReactRootView {
+          return RNGestureHandlerEnabledRootView(this@MainActivity)
+        }
+      }
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(null)
+  }
+
 }

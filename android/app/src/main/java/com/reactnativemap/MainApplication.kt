@@ -10,6 +10,10 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint.load
 import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.soloader.SoLoader
+import android.util.Log
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
+//import com.naver.maps.map.NaverMapSdk
 
 class MainApplication : Application(), ReactApplication {
 
@@ -34,9 +38,19 @@ class MainApplication : Application(), ReactApplication {
 
   override fun onCreate() {
     super.onCreate()
+
+      val appInfo: ApplicationInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA)
+      val clientId = appInfo.metaData.getString("com.naver.maps.map.CLIENT_ID")
+      Log.d("MainApplication", "Naver Maps Client ID: $clientId")
+
+      // Naver Map SDK 초기화
+//      NaverMapSdk.getInstance(this).client =
+//              NaverMapSdk.NaverCloudPlatformClient("1igbeh4a5u")
+
     SoLoader.init(this, false)
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
       // If you opted-in for the New Architecture, we load the native entry point for this app.
+
       load()
     }
   }
